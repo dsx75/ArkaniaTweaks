@@ -19,6 +19,16 @@ Simple gameplay tweaks for the Realms of Arkania games (remakes).
 * Increased amount (x2, x3) of spell points (during level ups)
 * Increased amount (x2, x3) of movable points (during level ups)
 
+### Usage
+
+To apply tweaks - run the ArkaniaTweaks.exe and follow instructions on the screen.
+
+You have to start new game and create new characters.
+
+To revert changes - right click on the game in your Steam library and select "Properties" - "Local files" - "Verify integrity of game files".
+
+If you installed the game in C:\Program Files directory, you may have to run the exe as the administrator.
+
 ### Requirements
 
 * .NET Framework 4.7.2
