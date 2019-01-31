@@ -19,6 +19,10 @@ Simple gameplay tweaks for the Realms of Arkania games (remakes).
 * Increased amount (x2, x3) of spell points (during level ups)
 * Increased amount (x2, x3) of movable points (during level ups)
 
+### Requirements
+
+* .NET Framework 4.7.2
+
 ### Changelog
 
 Version 1.0 (2019-01-31)
