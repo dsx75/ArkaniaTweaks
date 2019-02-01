@@ -47,6 +47,9 @@ namespace TaidanaKage.Arkania.Tweaks
         private Label labelMaxUpsMove;
         private ComboBox comboBoxMaxUpsMove;
 
+        private Label labelMeditationGain;
+        private ComboBox comboBoxMeditationGain;
+
         private Button buttonApply;
 
         // The main entry point for the application.
@@ -66,7 +69,7 @@ namespace TaidanaKage.Arkania.Tweaks
             this.selectedFolder = "";
 
             // Main form
-            this.Text = "Arkania Tweaks 1.0"; //TODO read this from the assembly?
+            this.Text = "Arkania Tweaks 1.1"; //TODO read this from the assembly?
             this.ClientSize = new Size(1000, 500);
             this.StartPosition = FormStartPosition.CenterScreen;
 
@@ -398,6 +401,28 @@ namespace TaidanaKage.Arkania.Tweaks
 
             this.labelMaxUpsMove.Height = this.comboBoxMaxUpsMove.Height;
 
+            // AE gain during Wizard's meditation
+            y += yInc;
+            this.labelMeditationGain = new Label();
+            this.Controls.Add(this.labelMeditationGain);
+            this.labelMeditationGain.Location = new Point(x, y);
+            this.labelMeditationGain.Size = new Size(labelWidth, 25);
+            this.labelMeditationGain.AutoSize = false;
+            this.labelMeditationGain.TextAlign = ContentAlignment.MiddleLeft;
+            this.labelMeditationGain.Text = "AE gain (Wizard's meditation):";
+            this.labelMeditationGain.BackColor = labelBackground;
+
+            this.comboBoxMeditationGain = new ComboBox();
+            this.Controls.Add(comboBoxMeditationGain);
+            this.comboBoxMeditationGain.Location = new Point(x + labelWidth + 10, y);
+            this.comboBoxMeditationGain.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.comboBoxMeditationGain.Size = new Size(comboWidth, 25);
+            this.comboBoxMeditationGain.Items.Add("original");
+            this.comboBoxMeditationGain.Items.Add("best possible roll");
+            this.comboBoxMeditationGain.SelectedIndex = 0;
+
+            this.labelMeditationGain.Height = this.comboBoxMeditationGain.Height;
+
             // Apply button
             y += yInc;
             this.buttonApply = new Button();
@@ -428,7 +453,9 @@ namespace TaidanaKage.Arkania.Tweaks
             this.comboBoxAE.Enabled = false;
             this.comboBoxSpellUps.Enabled = false;
             this.comboBoxMaxUpsMove.Enabled = false;
+            this.comboBoxMeditationGain.Enabled = false;
             this.buttonApply.Enabled = false;
+            this.Refresh();
             DirSearch(this.selectedFolder);
             //AddInfo("Combo box height = " + this.comboBoxLE.Height);
             this.buttonApply.Text = "Done";
@@ -634,6 +661,24 @@ namespace TaidanaKage.Arkania.Tweaks
                             wasChange = true;
                         }
                     }
+
+                    var xmlMeditation = xmlMagic.Element("grandmeditation");
+                    if (xmlMeditation != null)
+                    {
+                        // AE gain (Wizard's meditation)
+                        if (this.comboBoxMeditationGain.SelectedIndex > 0)
+                        {
+                            var xmlGain = xmlMeditation.Element("gain");
+                            if (xmlGain != null)
+                            {
+                                int newGain = BestPossibleRoll(xmlGain.Value);
+                                AddInfo("AE gain (meditation): " + xmlGain.Value + " --> " + newGain);
+                                xmlGain.Value = Convert.ToString(newGain);
+                                wasChange = true;
+                            }
+                        }
+                    }
+
                 }
 
 
